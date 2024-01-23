@@ -81,8 +81,29 @@
 
         // Checkpoint 3.1 What is the difference between inline event handlers and addEventListener? When should you use one over the other?
         // Answer: 
+        /*
+        Inline event handlers involve directly specifying the event handler within HTML attributes, while addEventListener is a more modern and flexible approach, 
+        allowing multiple handlers to be attached to an element. Use addEventListener for better separation of concerns, improved maintainability, and to avoid potential 
+        issues with inline event handlers.
+        */
         
         const results = []
+        // Todo 3.4b When the user presses the submit form button, append the contents of the form to results.
+        //          Then, display the content of results
+        // Resource: https://stackoverflow.com/questions/11563638/how-do-i-get-the-value-of-text-input-field-using-javascript
+        const userForm = document.getElementById('userForm');
+        const firstNameInput = document.getElementById('firstNameInput');
+        const lastNameInput = document.getElementById('lastNameInput');
+
+        userForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevents the page from refreshing
+            results.push({ firstName: firstNameInput.value, lastName: lastNameInput.value });
+            console.log('Form submitted. Results:', results);
+            // Clear form inputs
+            firstNameInput.value = '';
+            lastNameInput.value = '';
+        });
+        
         // Todo 3.5 add event listenders for the grandparent, parent, and child divs. 
         //          When clicked, the grandparent, parent, and child should log "Grandparent", "Parent", and "Child" respectively
         // Resource: https://youtu.be/XF1_MlZ5l6M?si=QrNjKXg-xXV6yghW @ 4:00 of the video
@@ -90,12 +111,33 @@
         const parent = document.querySelector(".parent")
         const child = document.querySelector(".child")
 
+        grandparent.addEventListener('click', () => {
+            console.log("Grandparent");
+        });
+
+        parent.addEventListener('click', (event) => {
+            event.stopPropagation();
+            console.log("Parent");
+        });
+
+        child.addEventListener('click', (event) => {
+            event.stopPropagation(); // Stops event from bubbling up to parent and grandparent
+            console.log("Child");
+        });
+
         // Checkpoint 3.2 What is event bubbling? How was it shown in Todo 3.5?
-        // Answer: 
+        // Answer:  
+        /*
+        Event bubbling is the phenomenon where an event occurring on a nested element also triggers the same event on its ancestors. In Todo 3.5, event bubbling was 
+        demonstrated by clicking on the child div, which triggered not only the child's event handler but also the parent and grandparent event handlers due to the default 
+        behavior of event propagation in the DOM.
+        */
         
         // Bonus Todo 3.6 Change your code in the previous todo such that "grandparent" is displayed first
+         // No additional changes needed since event listeners are already in the correct order.
 
         // Bonus Todo 3.7 Change your code in the previous todo such that "parent" is never displayed
+        parent.style.pointerEvents = 'none';
 
     </script>
 </body>
